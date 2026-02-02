@@ -91,7 +91,7 @@ export default function Home() {
           )}
         </div>
       </main>
-      <footer className="mt-6 w-full max-w-xl border-t border-teal-200/60 pt-4 flex justify-center gap-4">
+      <footer className="mt-6 w-full max-w-xl border-t border-teal-200/60 pt-4 flex justify-center gap-4 dark:text-black">
         <Button onClick={onDeleteDone}>Delete done</Button>
         <Button onClick={onDeleteAll}>Delete all</Button>
       </footer>

@@ -17,7 +17,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`p-2 rounded-md hover:cursor-pointer w-full ${BUTTON_STYLE[type]}`}
+      className={`p-2 rounded-md hover:cursor-pointer w-full dark:text-black ${BUTTON_STYLE[type]}`}
       type={type}
       onClick={onClick}
     >
