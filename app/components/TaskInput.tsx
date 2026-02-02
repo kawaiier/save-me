@@ -2,7 +2,8 @@
 
 import { FormEvent, ChangeEvent } from "react";
 import Button from "./Button";
-import { Level, LEVELS } from "../types";
+import { Level } from "../types";
+import LevelDropdown from "./LevelDropdown";
 
 interface TaskInputProps {
   onAddTask: (value1: string, value2: Level, value3: Level) => void;
@@ -57,20 +58,11 @@ export default function TaskInput({
         onChange={handleInputChange}
         value={currentTaskTitle}
       />
-      <select onChange={handleEnergyChange} value={currentEnergyLevel}>
-        {LEVELS.map((level: Level) => (
-          <option key={level} value={level}>
-            {level}
-          </option>
-        ))}
-      </select>
-      <select onChange={handleAnxietyChange} value={currentAnxietyLevel}>
-        {LEVELS.map((level: Level) => (
-          <option key={level} value={level}>
-            {level}
-          </option>
-        ))}
-      </select>
+      <LevelDropdown
+        level={currentAnxietyLevel}
+        onChange={handleAnxietyChange}
+      />
+      <LevelDropdown level={currentEnergyLevel} onChange={handleEnergyChange} />
       <Button type={"submit"}>Add Task</Button>
       <Button type={"reset"} onClick={handleReset}>
         Reset

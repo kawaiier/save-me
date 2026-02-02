@@ -3,7 +3,7 @@ export const LEVELS = ["low", "medium", "high"];
 export type Level = (typeof LEVELS)[number];
 
 // Creating an interface for a Task
-export interface TaskItem {
+export interface Task {
   title: string;
   energyLevel: Level;
   anxietyLevel: Level;

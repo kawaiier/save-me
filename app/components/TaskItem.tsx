@@ -1,16 +1,16 @@
-import { TaskItem } from "../types";
+import { Task } from "../types";
 import { Level } from "../types";
 import LevelLabel from "./LevelLabel";
 
 interface TaskProps {
-  task: TaskItem;
+  task: Task;
   onToggleDone: (taskId: number) => void;
   onDeleteTask: (taskId: number) => void;
   energyLevel: Level;
   anxietyLevel: Level;
 }
 
-export default function Task({
+export default function TaskItem({
   task,
   onToggleDone,
   onDeleteTask,

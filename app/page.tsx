@@ -1,15 +1,15 @@
 "use client";
 import TaskInput from "./components/TaskInput";
-import Task from "./components/Task";
+import TaskItem from "./components/TaskItem";
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
-import { TaskItem, Level } from "./types";
+import { Task, Level } from "./types";
 
 export default function Home() {
   const [currentTaskTitle, setCurrentTaskTitle] = useState<string>("");
   const [currentEnergyLevel, setCurrentEnergyLevel] = useState<Level>("low");
   const [currentAnxietyLevel, setCurrentAnxietyLevel] = useState<Level>("low");
-  const [tasksList, setTasksList] = useState<TaskItem[]>([]);
+  const [tasksList, setTasksList] = useState<Task[]>([]);
 
   function onAddTask(
     taskTitle: string,
@@ -75,7 +75,7 @@ export default function Home() {
             <p>No tasks yet</p>
           ) : (
             tasksList.map((task) => (
-              <Task
+              <TaskItem
                 key={task.id}
                 task={task}
                 onToggleDone={onToggleDone}
