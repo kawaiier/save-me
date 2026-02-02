@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Todo App",
-  description: "The best todo app",
+  title: "Save Me",
+  description: "Stressless Task Management",
 };
 
 export default function RootLayout({
@@ -13,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
