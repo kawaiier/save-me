@@ -27,7 +27,7 @@ export default function TaskInput({
 }: TaskInputProps) {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     if (currentTaskTitle !== "") {
-      onAddTask(currentTaskTitle, currentAnxietyLevel, currentEnergyLevel);
+      onAddTask(currentTaskTitle, currentEnergyLevel, currentAnxietyLevel);
       setCurrentTaskTitle("");
     }
     e.preventDefault();

@@ -1,6 +1,13 @@
 import { Task } from "../types";
 import { Level, LEVELS } from "../types";
 import LevelLabel from "./LevelLabel";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import Checkbox from "@mui/material/Checkbox";
+import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
+import PsychologyIcon from "@mui/icons-material/Psychology";
 
 interface TaskProps {
   task: Task;
@@ -23,29 +30,42 @@ export default function TaskItem({
   return (
     <div className="flex gap-2 items-center flex-col md:flex-row justify-between">
       <div className="flex items-center gap-2 flex-1 min-w-0">
-        <div
-          className={
-            task.done
-              ? "w-4 h-4 bg-teal-800 rounded-full"
-              : "w-4 h-4 bg-cyan-100 border-solid border-2 border-teal-800 rounded-full"
-          }
-          onClick={() => onToggleDone(task.id)}
-        ></div>
+        <Checkbox
+          checked={task.done}
+          onChange={() => onToggleDone(task.id)}
+          color="success"
+          sx={{
+            bgcolor: "#fefefe",
+            ":hover": {
+              bgcolor: "#f1f1f1",
+            },
+          }}
+        />
         <p title={task.id.toString()}>{task.title}</p>
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <LevelLabel currentLevel={anxietyLevel}>
-          Anxiety: {anxietyLevel} / {anxietyScore}
+          <Tooltip title="Anxiety level">
+            <PsychologyAltIcon />
+          </Tooltip>
         </LevelLabel>
         <LevelLabel currentLevel={energyLevel}>
-          Energy: {energyLevel} / {energyScore}
+          <Tooltip title="Energy level">
+            <ElectricBoltIcon />
+          </Tooltip>
         </LevelLabel>
-        <span
-          className="text-red-700 rounded-3xl w-6 h-6 flex items-center justify-center p-1 hover:cursor-pointer"
-          onClick={() => onDeleteTask(task.id)}
-        >
-          x
-        </span>
+        {anxietyLevel != "low" && (
+          <Tooltip title="I need help with this task">
+            <IconButton color="primary">
+              <PsychologyAltIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        <Tooltip title="Delete the task">
+          <IconButton color="error" onClick={() => onDeleteTask(task.id)}>
+            <HighlightOffIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );

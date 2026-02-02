@@ -1,4 +1,5 @@
 import type { ChangeEvent } from "react";
+import TextField from "@mui/material/TextField";
 
 interface TaskTitleInputProps {
   currentTaskTitle: string;
@@ -14,11 +15,11 @@ export default function TaskTitleInput({
   }
 
   return (
-    <input
+    <TextField
       type="text"
       value={currentTaskTitle}
       onChange={handleTitleChange}
-      className="border border-gray-300 rounded-md px-2 py-1 w-full"
+      sx={{ bgcolor: "#fff" }}
     />
   );
 }

@@ -66,6 +66,20 @@ export default function Home() {
 
   const totalStressScore = currentEnergyScore + currentAnxietyScore;
 
+  const scoreColor =
+    totalStressScore <= 50
+      ? "text-green-300"
+      : totalStressScore <= 100
+        ? "text-yellow-300"
+        : "text-red-300";
+
+  const stressMessage =
+    totalStressScore <= 50
+      ? "Great job! Keep up the good work."
+      : totalStressScore <= 100
+        ? "You're doing well, but there's room for improvement."
+        : "Think of decreasing your workload for today.";
+
   return (
     <div className="container p-4 flex flex-col items-center m-auto">
       <header className="border-b mb-6 pb-4 border-teal-200/60">
@@ -73,7 +87,11 @@ export default function Home() {
         <h2 className="text-2xl">A to-do app to reduce stress</h2>
       </header>
       <main className="container flex flex-col items-center p-2">
-        <h3>Current Stress Score: {totalStressScore}</h3>
+        <h3>
+          Current Stress Score:{" "}
+          <span className={`${scoreColor}`}>{totalStressScore}</span>
+        </h3>
+        <p>{stressMessage}</p>
         <TaskCreator
           currentTaskTitle={currentTaskTitle}
           setCurrentTaskTitle={setCurrentTaskTitle}
@@ -83,6 +101,7 @@ export default function Home() {
           setCurrentEnergyLevel={setCurrentEnergyLevel}
           setCurrentAnxietyLevel={setCurrentAnxietyLevel}
         />
+        <h3 className="text-xl">Inbox</h3>
         <div className="flex flex-col gap-4 p-4 w-fit">
           {tasksList.length === 0 ? (
             <p>No tasks yet</p>
