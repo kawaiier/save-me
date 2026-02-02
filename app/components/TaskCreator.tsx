@@ -49,20 +49,29 @@ export default function TaskInput({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 flex gap-4 w-fit">
+    <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-4">
       <TaskTitleInput
         currentTaskTitle={currentTaskTitle}
         onChange={setCurrentTaskTitle}
       />
-      <LevelDropdown
-        level={currentAnxietyLevel}
-        onChange={handleAnxietyChange}
-      />
-      <LevelDropdown level={currentEnergyLevel} onChange={handleEnergyChange} />
-      <Button type={"submit"}>Add Task</Button>
-      <Button type={"reset"} onClick={handleReset}>
-        Reset
-      </Button>
+      <div className="flex gap-4 items-center">
+        <label>Anxiety Level</label>
+        <LevelDropdown
+          level={currentAnxietyLevel}
+          onChange={handleAnxietyChange}
+        />
+        <label>Energy Level</label>
+        <LevelDropdown
+          level={currentEnergyLevel}
+          onChange={handleEnergyChange}
+        />
+      </div>
+      <div className="flex gap-4 items-center">
+        <Button type={"submit"}>Add Task</Button>
+        <Button type={"reset"} onClick={handleReset}>
+          Reset
+        </Button>
+      </div>
     </form>
   );
 }

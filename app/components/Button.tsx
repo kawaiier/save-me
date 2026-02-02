@@ -5,9 +5,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const BUTTON_STYLE: Record<"submit" | "reset" | "button", string> = {
-  submit: "bg-green-500 hover:bg-green-700",
-  reset: "bg-red-500 hover:bg-red-700",
-  button: "bg-gray-500 hover:bg-gray-700",
+  submit: "bg-green-200 hover:bg-green-500",
+  reset: "bg-red-200 hover:bg-red-500",
+  button: "bg-gray-200 hover:bg-gray-500",
 };
 
 export default function Button({
@@ -17,7 +17,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`p-2 rounded-md hover:cursor-pointer ${BUTTON_STYLE[type]}`}
+      className={`p-2 rounded-md hover:cursor-pointer w-full ${BUTTON_STYLE[type]}`}
       type={type}
       onClick={onClick}
     >

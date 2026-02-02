@@ -59,12 +59,12 @@ export default function Home() {
   }, [tasksList]);
 
   return (
-    <div className="container w-fit m-auto">
-      <header>
+    <div className="container p-4 flex flex-col items-center m-auto">
+      <header className="border-b mb-6 pb-4 border-teal-200/60">
         <h1 className="text-4xl font-bold my-4">Save Me</h1>
         <h2 className="text-2xl">A to-do app to reduce stress</h2>
       </header>
-      <main className="container p-2">
+      <main className="container flex flex-col items-center p-2">
         <TaskCreator
           currentTaskTitle={currentTaskTitle}
           setCurrentTaskTitle={setCurrentTaskTitle}
@@ -91,9 +91,9 @@ export default function Home() {
           )}
         </div>
       </main>
-      <footer className="flex gap-4">
-        <Button onClick={onDeleteDone}>Delete done tasks</Button>
-        <Button onClick={onDeleteAll}>Delete all tasks</Button>
+      <footer className="mt-6 w-full max-w-xl border-t border-teal-200/60 pt-4 flex justify-center gap-4">
+        <Button onClick={onDeleteDone}>Delete done</Button>
+        <Button onClick={onDeleteAll}>Delete all</Button>
       </footer>
     </div>
   );
