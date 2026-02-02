@@ -4,6 +4,7 @@ import { FormEvent, ChangeEvent } from "react";
 import Button from "./Button";
 import { Level } from "../types";
 import LevelDropdown from "./LevelDropdown";
+import TaskTitleInput from "./TaskTitleInput";
 
 interface TaskInputProps {
   onAddTask: (value1: string, value2: Level, value3: Level) => void;
@@ -24,10 +25,6 @@ export default function TaskInput({
   setCurrentEnergyLevel,
   setCurrentAnxietyLevel,
 }: TaskInputProps) {
-  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-    setCurrentTaskTitle(e.target.value);
-  }
-
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     if (currentTaskTitle !== "") {
       onAddTask(currentTaskTitle, currentAnxietyLevel, currentEnergyLevel);
@@ -53,10 +50,9 @@ export default function TaskInput({
 
   return (
     <form onSubmit={handleSubmit} className="p-4 flex gap-4 w-fit">
-      <input
-        className="bg-gray-400"
-        onChange={handleInputChange}
-        value={currentTaskTitle}
+      <TaskTitleInput
+        currentTaskTitle={currentTaskTitle}
+        onChange={setCurrentTaskTitle}
       />
       <LevelDropdown
         level={currentAnxietyLevel}

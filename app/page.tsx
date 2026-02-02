@@ -1,5 +1,5 @@
 "use client";
-import TaskInput from "./components/TaskInput";
+import TaskCreator from "./components/TaskCreator";
 import TaskItem from "./components/TaskItem";
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
@@ -42,6 +42,10 @@ export default function Home() {
     setTasksList(tasksList.filter((task) => !task.done));
   }
 
+  function onDeleteAll() {
+    setTasksList([]);
+  }
+
   function onDeleteTask(taskId: number) {
     setTasksList(tasksList.filter((task) => task.id !== taskId));
   }
@@ -61,7 +65,7 @@ export default function Home() {
         <h2 className="text-2xl">A to-do app to reduce stress</h2>
       </header>
       <main className="container p-2">
-        <TaskInput
+        <TaskCreator
           currentTaskTitle={currentTaskTitle}
           setCurrentTaskTitle={setCurrentTaskTitle}
           onAddTask={onAddTask}
@@ -87,8 +91,9 @@ export default function Home() {
           )}
         </div>
       </main>
-      <footer>
+      <footer className="flex gap-4">
         <Button onClick={onDeleteDone}>Delete done tasks</Button>
+        <Button onClick={onDeleteAll}>Delete all tasks</Button>
       </footer>
     </div>
   );
