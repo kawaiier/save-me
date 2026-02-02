@@ -1,5 +1,5 @@
 import { Task } from "../types";
-import { Level } from "../types";
+import { Level, LEVELS } from "../types";
 import LevelLabel from "./LevelLabel";
 
 interface TaskProps {
@@ -17,6 +17,9 @@ export default function TaskItem({
   energyLevel,
   anxietyLevel,
 }: TaskProps) {
+  const energyScore = 10 * (LEVELS.indexOf(energyLevel) + 1);
+  const anxietyScore = 10 * (LEVELS.indexOf(anxietyLevel) + 1);
+
   return (
     <div className="flex gap-2 items-center flex-col md:flex-row justify-between">
       <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -32,10 +35,10 @@ export default function TaskItem({
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <LevelLabel currentLevel={anxietyLevel}>
-          Anxiety: {anxietyLevel}
+          Anxiety: {anxietyLevel} / {anxietyScore}
         </LevelLabel>
         <LevelLabel currentLevel={energyLevel}>
-          Energy: {energyLevel}
+          Energy: {energyLevel} / {energyScore}
         </LevelLabel>
         <span
           className="text-red-700 rounded-3xl w-6 h-6 flex items-center justify-center p-1 hover:cursor-pointer"

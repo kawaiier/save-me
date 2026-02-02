@@ -3,7 +3,7 @@ import TaskCreator from "./components/TaskCreator";
 import TaskItem from "./components/TaskItem";
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
-import { Task, Level } from "./types";
+import { Task, Level, LEVELS } from "./types";
 
 export default function Home() {
   const [currentTaskTitle, setCurrentTaskTitle] = useState<string>("");
@@ -26,20 +26,19 @@ export default function Home() {
         anxietyLevel,
       },
     ]);
-    localStorage.setItem("taskList", JSON.stringify(tasksList));
     setCurrentTaskTitle("");
   }
 
   function onToggleDone(taskId: number) {
-    setTasksList(
-      tasksList.map((task) =>
+    setTasksList((prev) =>
+      prev.map((task) =>
         task.id === taskId ? { ...task, done: !task.done } : task,
       ),
     );
   }
 
   function onDeleteDone() {
-    setTasksList(tasksList.filter((task) => !task.done));
+    setTasksList((prev) => prev.filter((task) => !task.done));
   }
 
   function onDeleteAll() {
@@ -47,7 +46,7 @@ export default function Home() {
   }
 
   function onDeleteTask(taskId: number) {
-    setTasksList(tasksList.filter((task) => task.id !== taskId));
+    setTasksList((prev) => prev.filter((task) => task.id !== taskId));
   }
 
   useEffect(() => {
@@ -58,6 +57,15 @@ export default function Home() {
     localStorage.setItem("taskList", JSON.stringify(tasksList));
   }, [tasksList]);
 
+  const currentEnergyScore = tasksList
+    .map((task) => 10 * (LEVELS.indexOf(task.energyLevel) + 1))
+    .reduce((acc, curr) => acc + curr, 0);
+  const currentAnxietyScore = tasksList
+    .map((task) => 10 * (LEVELS.indexOf(task.anxietyLevel) + 1))
+    .reduce((acc, curr) => acc + curr, 0);
+
+  const totalStressScore = currentEnergyScore + currentAnxietyScore;
+
   return (
     <div className="container p-4 flex flex-col items-center m-auto">
       <header className="border-b mb-6 pb-4 border-teal-200/60">
@@ -65,6 +73,7 @@ export default function Home() {
         <h2 className="text-2xl">A to-do app to reduce stress</h2>
       </header>
       <main className="container flex flex-col items-center p-2">
+        <h3>Current Stress Score: {totalStressScore}</h3>
         <TaskCreator
           currentTaskTitle={currentTaskTitle}
           setCurrentTaskTitle={setCurrentTaskTitle}
