@@ -2,37 +2,52 @@
 
 import { FormEvent, ChangeEvent } from "react";
 import Button from "./Button";
+import { Level, LEVELS } from "../types";
 
 interface TaskInputProps {
-  onAddTask: (value1: string, value2: number) => void;
+  onAddTask: (value1: string, value2: Level, value3: Level) => void;
   currentTaskTitle: string;
-  currentEstimationTime: number;
   setCurrentTaskTitle: (value: string) => void;
-  setCurrentEstimationTime: (value: number) => void;
+  currentEnergyLevel: Level;
+  currentAnxietyLevel: Level;
+  setCurrentEnergyLevel: (value: Level) => void;
+  setCurrentAnxietyLevel: (value: Level) => void;
 }
 
 export default function TaskInput({
   onAddTask,
   currentTaskTitle,
-  currentEstimationTime,
+  currentEnergyLevel,
+  currentAnxietyLevel,
   setCurrentTaskTitle,
-  setCurrentEstimationTime,
+  setCurrentEnergyLevel,
+  setCurrentAnxietyLevel,
 }: TaskInputProps) {
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     setCurrentTaskTitle(e.target.value);
   }
 
-  function handleEstimationChange(e: ChangeEvent<HTMLInputElement>) {
-    setCurrentEstimationTime(Number(e.target.value));
-  }
-
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     if (currentTaskTitle !== "") {
-      onAddTask(currentTaskTitle, currentEstimationTime);
+      onAddTask(currentTaskTitle, currentAnxietyLevel, currentEnergyLevel);
       setCurrentTaskTitle("");
-      setCurrentEstimationTime(0);
     }
     e.preventDefault();
+  }
+
+  function handleReset() {
+    console.log("Resetting form");
+    setCurrentTaskTitle("");
+    setCurrentEnergyLevel("low");
+    setCurrentAnxietyLevel("low");
+  }
+
+  function handleEnergyChange(e: ChangeEvent<HTMLSelectElement>) {
+    setCurrentEnergyLevel(e.target.value as Level);
+  }
+
+  function handleAnxietyChange(e: ChangeEvent<HTMLSelectElement>) {
+    setCurrentAnxietyLevel(e.target.value as Level);
   }
 
   return (
@@ -42,13 +57,24 @@ export default function TaskInput({
         onChange={handleInputChange}
         value={currentTaskTitle}
       />
-      <input
-        className="bg-gray-400"
-        onChange={handleEstimationChange}
-        value={currentEstimationTime}
-        type="number"
-      />
+      <select onChange={handleEnergyChange} value={currentEnergyLevel}>
+        {LEVELS.map((level: Level) => (
+          <option key={level} value={level}>
+            {level}
+          </option>
+        ))}
+      </select>
+      <select onChange={handleAnxietyChange} value={currentAnxietyLevel}>
+        {LEVELS.map((level: Level) => (
+          <option key={level} value={level}>
+            {level}
+          </option>
+        ))}
+      </select>
       <Button type={"submit"}>Add Task</Button>
+      <Button type={"reset"} onClick={handleReset}>
+        Reset
+      </Button>
     </form>
   );
 }
