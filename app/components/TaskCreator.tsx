@@ -1,10 +1,11 @@
 "use client";
 
 import { FormEvent, ChangeEvent } from "react";
-import Button from "./Button";
 import { Level } from "../types";
 import LevelDropdown from "./LevelDropdown";
 import TaskTitleInput from "./TaskTitleInput";
+import { FormControl, SelectChangeEvent } from "@mui/material";
+import StyledButton from "./Button";
 
 interface TaskInputProps {
   onAddTask: (value1: string, value2: Level, value3: Level) => void;
@@ -40,38 +41,40 @@ export default function TaskInput({
     setCurrentAnxietyLevel("low");
   }
 
-  function handleEnergyChange(e: ChangeEvent<HTMLSelectElement>) {
+  function handleEnergyChange(e: SelectChangeEvent) {
     setCurrentEnergyLevel(e.target.value as Level);
   }
 
-  function handleAnxietyChange(e: ChangeEvent<HTMLSelectElement>) {
+  function handleAnxietyChange(e: SelectChangeEvent) {
     setCurrentAnxietyLevel(e.target.value as Level);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-4">
+    <FormControl>
       <TaskTitleInput
         currentTaskTitle={currentTaskTitle}
         onChange={setCurrentTaskTitle}
       />
       <div className="flex gap-4 items-center">
-        <label>Anxiety Level</label>
         <LevelDropdown
           level={currentAnxietyLevel}
           onChange={handleAnxietyChange}
+          label="Anxiety Level"
         />
-        <label>Energy Level</label>
         <LevelDropdown
           level={currentEnergyLevel}
           onChange={handleEnergyChange}
+          label="Energey Level"
         />
       </div>
       <div className="flex gap-4 items-center">
-        <Button type={"submit"}>Add Task</Button>
-        <Button type={"reset"} onClick={handleReset}>
+        <StyledButton type={"submit"} onClick={handleSubmit}>
+          Add Task
+        </StyledButton>
+        <StyledButton type={"reset"} onClick={handleReset}>
           Reset
-        </Button>
+        </StyledButton>
       </div>
-    </form>
+    </FormControl>
   );
 }

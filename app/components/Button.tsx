@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   type?: "submit" | "reset" | "button";
@@ -5,23 +7,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const BUTTON_STYLE: Record<"submit" | "reset" | "button", string> = {
-  submit: "bg-green-200 hover:bg-green-500",
-  reset: "bg-red-200 hover:bg-red-500",
-  button: "bg-gray-200 hover:bg-gray-500",
+  submit: "success",
+  reset: "error",
+  button: "primary",
 };
 
-export default function Button({
+export default function StyledButton({
   children,
   type = "button",
   onClick,
 }: ButtonProps) {
   return (
-    <button
-      className={`p-2 rounded-md hover:cursor-pointer w-full dark:text-black ${BUTTON_STYLE[type]}`}
-      type={type}
-      onClick={onClick}
-    >
+    <Button color={BUTTON_STYLE[type]} onClick={onClick} variant="outlined">
       {children}
-    </button>
+    </Button>
   );
 }

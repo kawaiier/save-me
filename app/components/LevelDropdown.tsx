@@ -1,22 +1,28 @@
 import { Level, LEVELS } from "../types";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FormControl, InputLabel, MenuItem } from "@mui/material";
 
 interface LevelDropdownProps {
   level: Level;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (event: SelectChangeEvent) => void;
+  label: string;
 }
 
-export default function LevelDropdown({ level, onChange }: LevelDropdownProps) {
+export default function LevelDropdown({
+  level,
+  onChange,
+  label,
+}: LevelDropdownProps) {
   return (
-    <select
-      className="p-2 rounded-md hover:cursor-pointer bg-gray-800 text-gray-300"
-      value={level}
-      onChange={onChange}
-    >
-      {LEVELS.map((level: Level) => (
-        <option key={level} value={level}>
-          {level}
-        </option>
-      ))}
-    </select>
+    <FormControl fullWidth>
+      <InputLabel id={label}>{label}</InputLabel>
+      <Select value={level} id={label} onChange={onChange}>
+        {LEVELS.map((level: Level) => (
+          <MenuItem key={level} value={level}>
+            {level}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }

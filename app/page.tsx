@@ -2,8 +2,8 @@
 import TaskCreator from "./components/TaskCreator";
 import TaskItem from "./components/TaskItem";
 import { useEffect, useState } from "react";
-import Button from "./components/Button";
 import { Task, Level, LEVELS } from "./types";
+import StyledButton from "./components/Button";
 
 export default function Home() {
   const [currentTaskTitle, setCurrentTaskTitle] = useState<string>("");
@@ -26,6 +26,7 @@ export default function Home() {
         anxietyLevel,
       },
     ]);
+    console.log(taskTitle, energyLevel, anxietyLevel);
     setCurrentTaskTitle("");
   }
 
@@ -120,8 +121,12 @@ export default function Home() {
         </div>
       </main>
       <footer className="mt-6 w-full max-w-xl border-t border-teal-200/60 pt-4 flex justify-center gap-4 dark:text-black">
-        <Button onClick={onDeleteDone}>Delete done</Button>
-        <Button onClick={onDeleteAll}>Delete all</Button>
+        <StyledButton onClick={onDeleteDone} type="reset">
+          Delete done
+        </StyledButton>
+        <StyledButton onClick={onDeleteAll} type="reset">
+          Delete all
+        </StyledButton>
       </footer>
     </div>
   );
