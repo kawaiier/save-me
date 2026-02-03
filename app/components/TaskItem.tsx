@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Checkbox from "@mui/material/Checkbox";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import PsychologyIcon from "@mui/icons-material/Psychology";
-import { Box, Modal, Typography } from "@mui/material";
+import { Paper, Box, Modal, Typography, Stack } from "@mui/material";
 import { useState } from "react";
 
 interface TaskProps {
@@ -26,7 +26,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: 3,
   boxShadow: 24,
   p: 4,
 };
@@ -46,60 +46,103 @@ export default function TaskItem({
   const anxietyScore = 10 * (LEVELS.indexOf(anxietyLevel) + 1);
 
   return (
-    <div className="flex gap-2 items-center flex-col md:flex-row justify-between">
-      <div className="flex items-center gap-2 flex-1 min-w-0">
-        <Checkbox
-          checked={task.done}
-          onChange={() => onToggleDone(task.id)}
-          color="success"
-          sx={{
-            bgcolor: "#fefefe",
-            ":hover": {
-              bgcolor: "#f1f1f1",
-            },
-          }}
-        />
-        <p title={task.id.toString()}>{task.title}</p>
-      </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <LevelLabel currentLevel={anxietyLevel}>
-          <Tooltip title="Anxiety level">
-            <PsychologyAltIcon />
-          </Tooltip>
-        </LevelLabel>
-        <LevelLabel currentLevel={energyLevel}>
-          <Tooltip title="Energy level">
-            <ElectricBoltIcon />
-          </Tooltip>
-        </LevelLabel>
-        {anxietyLevel != "low" && (
-          <Tooltip title="I need help with this task">
-            <IconButton color="primary" onClick={handleOpen}>
-              <PsychologyAltIcon />
+    <Paper
+      elevation={1}
+      sx={{
+        p: 2,
+        borderRadius: 3,
+        border: "1px solid",
+        borderColor: task.done ? "#86efac" : "#e2e8f0",
+        bgcolor: task.done ? "#f0fdf4" : "white",
+        opacity: task.done ? 0.75 : 1,
+        transition: "all 0.2s ease-in-out",
+        "&:hover": {
+          boxShadow: 2,
+        },
+      }}
+    >
+      <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+        <Stack direction="row" spacing={2} alignItems="center" flex={1} minWidth={0}>
+          <Checkbox
+            checked={task.done}
+            onChange={() => onToggleDone(task.id)}
+            color="success"
+            sx={{
+              padding: "8px",
+              "& .MuiSvgIcon-root": {
+                fontSize: "22px",
+              },
+            }}
+          />
+          <Typography
+            title={task.id.toString()}
+            sx={{
+              fontWeight: 500,
+              color: task.done ? "#64748b" : "#1e293b",
+              textDecoration: task.done ? "line-through" : "none",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {task.title}
+          </Typography>
+        </Stack>
+
+        <Stack direction="row" spacing={1} alignItems="center" flexShrink={0}>
+          <LevelLabel currentLevel={anxietyLevel}>
+            <Tooltip title="Anxiety level">
+              <PsychologyAltIcon sx={{ color: "#8b5cf6" }} />
+            </Tooltip>
+          </LevelLabel>
+          <LevelLabel currentLevel={energyLevel}>
+            <Tooltip title="Energy level">
+              <ElectricBoltIcon sx={{ color: "#eab308" }} />
+            </Tooltip>
+          </LevelLabel>
+          {anxietyLevel !== "low" && (
+            <Tooltip title="I need help with this task">
+              <IconButton
+                color="primary"
+                onClick={handleOpen}
+                sx={{
+                  color: "#8b5cf6",
+                  "&:hover": { backgroundColor: "rgba(139, 92, 246, 0.1)" },
+                }}
+              >
+                <PsychologyIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+          <Tooltip title="Delete the task">
+            <IconButton
+              color="error"
+              onClick={() => onDeleteTask(task.id)}
+              sx={{
+                "&:hover": { backgroundColor: "rgba(239, 68, 68, 0.1)" },
+              }}
+            >
+              <HighlightOffIcon />
             </IconButton>
           </Tooltip>
-        )}
-        <Tooltip title="Delete the task">
-          <IconButton color="error" onClick={() => onDeleteTask(task.id)}>
-            <HighlightOffIcon />
-          </IconButton>
-        </Tooltip>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              I'll help you with task
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Just do it ;)
-            </Typography>
-          </Box>
-        </Modal>
-      </div>
-    </div>
+        </Stack>
+      </Stack>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ color: "#1e293b", fontWeight: 600 }}>
+            I'll help you with this task
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2, color: "#64748b" }}>
+            Take a deep breath and break it down into smaller steps. You've got this!
+          </Typography>
+        </Box>
+      </Modal>
+    </Paper>
   );
 }

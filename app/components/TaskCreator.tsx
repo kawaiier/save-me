@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, ChangeEvent } from "react";
+import { FormEvent } from "react";
 import { Level } from "../types";
 import LevelDropdown from "./LevelDropdown";
 import TaskTitleInput from "./TaskTitleInput";
-import { FormControl, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent, Stack, InputLabel, Box } from "@mui/material";
 import StyledButton from "./Button";
 
 interface TaskInputProps {
@@ -35,7 +35,6 @@ export default function TaskInput({
   }
 
   function handleReset() {
-    console.log("Resetting form");
     setCurrentTaskTitle("");
     setCurrentEnergyLevel("low");
     setCurrentAnxietyLevel("low");
@@ -50,31 +49,46 @@ export default function TaskInput({
   }
 
   return (
-    <FormControl>
-      <TaskTitleInput
-        currentTaskTitle={currentTaskTitle}
-        onChange={setCurrentTaskTitle}
-      />
-      <div className="flex gap-4 items-center">
-        <LevelDropdown
-          level={currentAnxietyLevel}
-          onChange={handleAnxietyChange}
-          label="Anxiety Level"
+    <Box component="form" onSubmit={handleSubmit}>
+      <Stack spacing={3}>
+        <TaskTitleInput
+          currentTaskTitle={currentTaskTitle}
+          onChange={setCurrentTaskTitle}
         />
-        <LevelDropdown
-          level={currentEnergyLevel}
-          onChange={handleEnergyChange}
-          label="Energey Level"
-        />
-      </div>
-      <div className="flex gap-4 items-center">
-        <StyledButton type={"submit"} onClick={handleSubmit}>
-          Add Task
-        </StyledButton>
-        <StyledButton type={"reset"} onClick={handleReset}>
-          Reset
-        </StyledButton>
-      </div>
-    </FormControl>
+
+        <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
+          <Stack spacing={1} flex={1}>
+            <InputLabel sx={{ fontWeight: 500, color: "#475569" }}>
+              Anxiety Level
+            </InputLabel>
+            <LevelDropdown
+              level={currentAnxietyLevel}
+              onChange={handleAnxietyChange}
+              label="Anxiety Level"
+            />
+          </Stack>
+
+          <Stack spacing={1} flex={1}>
+            <InputLabel sx={{ fontWeight: 500, color: "#475569" }}>
+              Energy Level
+            </InputLabel>
+            <LevelDropdown
+              level={currentEnergyLevel}
+              onChange={handleEnergyChange}
+              label="Energy Level"
+            />
+          </Stack>
+        </Stack>
+
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <StyledButton type="submit" size="large" onClick={handleSubmit}>
+            Add Task
+          </StyledButton>
+          <StyledButton type="reset" size="large" onClick={handleReset}>
+            Reset
+          </StyledButton>
+        </Stack>
+      </Stack>
+    </Box>
   );
 }

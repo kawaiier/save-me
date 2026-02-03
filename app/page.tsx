@@ -4,6 +4,14 @@ import TaskItem from "./components/TaskItem";
 import { useEffect, useState } from "react";
 import { Task, Level, LEVELS } from "./types";
 import StyledButton from "./components/Button";
+import {
+  Container,
+  Paper,
+  Box,
+  Typography,
+  Stack,
+  Divider,
+} from "@mui/material";
 
 export default function Home() {
   const [currentTaskTitle, setCurrentTaskTitle] = useState<string>("");
@@ -26,7 +34,6 @@ export default function Home() {
         anxietyLevel,
       },
     ]);
-    console.log(taskTitle, energyLevel, anxietyLevel);
     setCurrentTaskTitle("");
   }
 
@@ -69,10 +76,10 @@ export default function Home() {
 
   const scoreColor =
     totalStressScore <= 50
-      ? "text-green-300"
+      ? "success"
       : totalStressScore <= 100
-        ? "text-yellow-300"
-        : "text-red-300";
+        ? "warning"
+        : "error";
 
   const stressMessage =
     totalStressScore <= 50
@@ -82,52 +89,160 @@ export default function Home() {
         : "Think of decreasing your workload for today.";
 
   return (
-    <div className="container p-4 flex flex-col items-center m-auto">
-      <header className="border-b mb-6 pb-4 border-teal-200/60">
-        <h1 className="text-4xl font-bold my-4">Save Me</h1>
-        <h2 className="text-2xl">A to-do app to reduce stress</h2>
-      </header>
-      <main className="container flex flex-col items-center p-2">
-        <h3>
-          Current Stress Score:{" "}
-          <span className={`${scoreColor}`}>{totalStressScore}</span>
-        </h3>
-        <p>{stressMessage}</p>
-        <TaskCreator
-          currentTaskTitle={currentTaskTitle}
-          setCurrentTaskTitle={setCurrentTaskTitle}
-          onAddTask={onAddTask}
-          currentEnergyLevel={currentEnergyLevel}
-          currentAnxietyLevel={currentAnxietyLevel}
-          setCurrentEnergyLevel={setCurrentEnergyLevel}
-          setCurrentAnxietyLevel={setCurrentAnxietyLevel}
-        />
-        <h3 className="text-xl">Inbox</h3>
-        <div className="flex flex-col gap-4 p-4 w-fit">
-          {tasksList.length === 0 ? (
-            <p>No tasks yet</p>
-          ) : (
-            tasksList.map((task) => (
-              <TaskItem
-                key={task.id}
-                task={task}
-                onToggleDone={onToggleDone}
-                onDeleteTask={onDeleteTask}
-                energyLevel={task.energyLevel}
-                anxietyLevel={task.anxietyLevel}
-              />
-            ))
-          )}
-        </div>
-      </main>
-      <footer className="mt-6 w-full max-w-xl border-t border-teal-200/60 pt-4 flex justify-center gap-4 dark:text-black">
-        <StyledButton onClick={onDeleteDone} type="reset">
-          Delete done
-        </StyledButton>
-        <StyledButton onClick={onDeleteAll} type="reset">
-          Delete all
-        </StyledButton>
-      </footer>
-    </div>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f8fafc 0%, #ccfbf1 100%)",
+        py: 4,
+      }}
+    >
+      <Container maxWidth="md">
+        <Box sx={{ textAlign: "center", mb: 6 }}>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{
+              fontWeight: 700,
+              color: "#1e293b",
+              mb: 1,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Save Me
+          </Typography>
+          <Typography
+            variant="h6"
+            component="h2"
+            sx={{ color: "#64748b", fontWeight: 500 }}
+          >
+            A stress-reducing to-do app
+          </Typography>
+          <Divider
+            sx={{
+              width: 96,
+              mx: "auto",
+              mt: 2,
+              borderColor: "#14b8a6",
+              borderWidth: 2,
+              borderRadius: 1,
+            }}
+          />
+        </Box>
+
+        <Stack spacing={3}>
+          <Paper
+            elevation={2}
+            sx={{
+              p: 4,
+              textAlign: "center",
+              borderRadius: 3,
+              border: "1px solid #e2e8f0",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{ color: "#475569", mb: 1, fontWeight: 600 }}
+            >
+              Current Stress Score
+            </Typography>
+            <Typography
+              variant="h2"
+              color={scoreColor}
+              sx={{
+                fontWeight: 700,
+                mb: 1,
+                textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              }}
+            >
+              {totalStressScore}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ color: "#64748b", fontWeight: 500 }}
+            >
+              {stressMessage}
+            </Typography>
+          </Paper>
+
+          <Paper
+            elevation={2}
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              border: "1px solid #e2e8f0",
+            }}
+          >
+            <TaskCreator
+              currentTaskTitle={currentTaskTitle}
+              setCurrentTaskTitle={setCurrentTaskTitle}
+              onAddTask={onAddTask}
+              currentEnergyLevel={currentEnergyLevel}
+              currentAnxietyLevel={currentAnxietyLevel}
+              setCurrentEnergyLevel={setCurrentEnergyLevel}
+              setCurrentAnxietyLevel={setCurrentAnxietyLevel}
+            />
+          </Paper>
+
+          <Paper
+            elevation={2}
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              border: "1px solid #e2e8f0",
+            }}
+          >
+            <Typography
+              variant="h5"
+              component="h3"
+              sx={{
+                textAlign: "center",
+                color: "#1e293b",
+                fontWeight: 600,
+                mb: 3,
+              }}
+            >
+              Your Tasks
+            </Typography>
+
+            {tasksList.length === 0 ? (
+              <Box sx={{ textAlign: "center", py: 4 }}>
+                <Typography variant="h2" sx={{ mb: 2 }}>
+                  🧘
+                </Typography>
+                <Typography variant="body1" sx={{ color: "#64748b" }}>
+                  No tasks yet. Time to relax!
+                </Typography>
+              </Box>
+            ) : (
+              <Stack spacing={2}>
+                {tasksList.map((task) => (
+                  <TaskItem
+                    key={task.id}
+                    task={task}
+                    onToggleDone={onToggleDone}
+                    onDeleteTask={onDeleteTask}
+                    energyLevel={task.energyLevel}
+                    anxietyLevel={task.anxietyLevel}
+                  />
+                ))}
+              </Stack>
+            )}
+          </Paper>
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            justifyContent="center"
+          >
+            <StyledButton onClick={onDeleteDone} type="reset" size="large">
+              Clear Completed
+            </StyledButton>
+            <StyledButton onClick={onDeleteAll} type="reset" size="large">
+              Clear All
+            </StyledButton>
+          </Stack>
+        </Stack>
+      </Container>
+    </Box>
   );
 }
